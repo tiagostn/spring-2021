@@ -48,12 +48,8 @@ public class SpaceShipController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-
     @PutMapping
     public ResponseEntity<SpaceShip> update(@RequestBody SpaceShipDTO spaceShip) {
         return ResponseEntity.ok(spaceShipService.save(SpaceShipMapper.get().toSpaceShip(spaceShip)));
     }
-
-
-
 }

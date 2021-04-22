@@ -1,8 +1,7 @@
 package org.ts.spring21.service;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import org.ts.spring21.exception.NotFoundException;
 import org.ts.spring21.model.SpaceShip;
 import org.ts.spring21.repository.SpaceShipRepository;
 
@@ -23,7 +22,7 @@ public class SpaceShipService {
 
     public SpaceShip findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Space not found"));
+                .orElseThrow(() -> new NotFoundException("Space not found"));
     }
 
     public List<SpaceShip> findByName(String name) {
