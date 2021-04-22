@@ -1,19 +1,10 @@
 package org.ts.spring21.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+@Getter
+@SuperBuilder
+public class BusinessExceptionDetails extends ExceptionDetails {
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class BusinessExceptionDetails {
-    private String title;
-    private int status;
-    private String description;
-    private LocalDateTime timestamp;
 }
