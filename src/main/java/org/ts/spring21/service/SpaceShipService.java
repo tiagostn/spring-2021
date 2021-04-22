@@ -22,6 +22,10 @@ public class SpaceShipService {
         return repository.findAll(pageable);
     }
 
+    public List<SpaceShip> listAll() {
+        return repository.findAll();
+    }
+
     public SpaceShip findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Space not found"));

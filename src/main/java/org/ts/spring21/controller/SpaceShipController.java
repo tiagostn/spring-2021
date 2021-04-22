@@ -30,6 +30,11 @@ public class SpaceShipController {
         return ApiResponse.builder().data(spaceShipService.listAll(pageable)).build();
     }
 
+    @GetMapping("/all")
+    public List<SpaceShip> list() {
+        return spaceShipService.listAll();
+    }
+
     @GetMapping("/{id}")
     public SpaceShip findById(@PathVariable("id") long id) {
         return spaceShipService.findById(id);
