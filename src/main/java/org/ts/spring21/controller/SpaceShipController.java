@@ -10,6 +10,7 @@ import org.ts.spring21.mapper.SpaceShipMapper;
 import org.ts.spring21.model.SpaceShip;
 import org.ts.spring21.service.SpaceShipService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -39,7 +40,7 @@ public class SpaceShipController {
     }
 
     @PostMapping
-    public ResponseEntity<SpaceShip> save(@RequestBody SpaceShipDTO spaceShip) {
+    public ResponseEntity<SpaceShip> save(@RequestBody @Valid SpaceShipDTO spaceShip) {
         return new ResponseEntity<>(spaceShipService.save(SpaceShipMapper.get().toSpaceShip(spaceShip)), HttpStatus.CREATED);
     }
 
