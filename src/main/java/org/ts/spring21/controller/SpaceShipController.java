@@ -32,6 +32,11 @@ public class SpaceShipController {
         return spaceShipService.findById(id);
     }
 
+    @GetMapping("/find")
+    public List<SpaceShip> findByName(@RequestParam String name) {
+        return spaceShipService.findByName(name);
+    }
+
     @PostMapping
     public ResponseEntity<SpaceShip> save(@RequestBody SpaceShipDTO spaceShip) {
         return new ResponseEntity<>(spaceShipService.save(SpaceShipMapper.get().toSpaceShip(spaceShip)), HttpStatus.CREATED);

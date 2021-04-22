@@ -26,6 +26,10 @@ public class SpaceShipService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Space not found"));
     }
 
+    public List<SpaceShip> findByName(String name) {
+        return repository.findByName(name);
+    }
+
     public SpaceShip save(SpaceShip spaceShip) {
         return repository.save(spaceShip);
     }
