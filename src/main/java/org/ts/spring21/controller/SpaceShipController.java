@@ -4,6 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.ts.spring21.controller.dto.SpaceShipDTO;
+import org.ts.spring21.mapper.SpaceShipMapper;
 import org.ts.spring21.model.SpaceShip;
 import org.ts.spring21.service.SpaceShipService;
 
@@ -22,7 +24,6 @@ public class SpaceShipController {
 
     @GetMapping
     public List<SpaceShip> list() {
-        log.info("List All");
         return spaceShipService.listAll();
     }
 
@@ -32,8 +33,8 @@ public class SpaceShipController {
     }
 
     @PostMapping
-    public ResponseEntity<SpaceShip> save(@RequestBody SpaceShip spaceShip) {
-        return new ResponseEntity<>(spaceShipService.save(spaceShip), HttpStatus.CREATED);
+    public ResponseEntity<SpaceShip> save(@RequestBody SpaceShipDTO spaceShip) {
+        return new ResponseEntity<>(spaceShipService.save(SpaceShipMapper.get().toSpaceShip(spaceShip)), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -44,8 +45,8 @@ public class SpaceShipController {
 
 
     @PutMapping
-    public ResponseEntity<SpaceShip> update(@RequestBody SpaceShip spaceShip) {
-        return ResponseEntity.ok(spaceShipService.save(spaceShip));
+    public ResponseEntity<SpaceShip> update(@RequestBody SpaceShipDTO spaceShip) {
+        return ResponseEntity.ok(spaceShipService.save(SpaceShipMapper.get().toSpaceShip(spaceShip)));
     }
 
 

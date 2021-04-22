@@ -4,45 +4,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.ts.spring21.model.SpaceShip;
+import org.ts.spring21.repository.SpaceShipRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class SpaceShipService {
 
+    private SpaceShipRepository repository;
 
-    private static final List<SpaceShip> spaceShips;
-
-    static {
-        spaceShips = new ArrayList<>(List.of(new SpaceShip(1L, "Saturn V"), new SpaceShip(2L, "Falcon IV")));
+    public SpaceShipService(SpaceShipRepository repository) {
+        this.repository = repository;
     }
 
     public List<SpaceShip> listAll() {
-        return spaceShips;
+        return repository.findAll();
     }
 
     public SpaceShip findById(Long id) {
-        return spaceShips.stream()
-                .filter(s -> s.getId().equals(id))
-                .findFirst()
+        return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Space not found"));
     }
 
     public SpaceShip save(SpaceShip spaceShip) {
-        if (spaceShip.getId() == null) {
-            spaceShip.setId(ThreadLocalRandom.current().nextLong(3, 9999));
-            spaceShips.add(spaceShip);
-        } else {
-            spaceShips.remove(findById(spaceShip.getId()));
-            spaceShips.add(spaceShip);
-        }
-        return spaceShip;
+        return repository.save(spaceShip);
     }
 
     public void delete(long id) {
-        SpaceShip spaceShip = findById(id);
-        spaceShips.remove(spaceShip);
+        repository.deleteById(id);
     }
 }
