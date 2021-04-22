@@ -1,5 +1,7 @@
 package org.ts.spring21.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.ts.spring21.exception.NotFoundException;
 import org.ts.spring21.model.SpaceShip;
@@ -16,8 +18,8 @@ public class SpaceShipService {
         this.repository = repository;
     }
 
-    public List<SpaceShip> listAll() {
-        return repository.findAll();
+    public Page<SpaceShip> listAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public SpaceShip findById(Long id) {
