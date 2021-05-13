@@ -7,6 +7,7 @@ import org.ts.spring21.exception.NotFoundException;
 import org.ts.spring21.model.SpaceShip;
 import org.ts.spring21.repository.SpaceShipRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -28,13 +29,14 @@ public class SpaceShipService {
 
     public SpaceShip findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Space not found"));
+                .orElseThrow(() -> new NotFoundException("Space Ship not found"));
     }
 
     public List<SpaceShip> findByName(String name) {
         return repository.findByName(name);
     }
 
+    @Transactional
     public SpaceShip save(SpaceShip spaceShip) {
         return repository.save(spaceShip);
     }
