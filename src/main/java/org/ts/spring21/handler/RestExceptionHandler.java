@@ -38,7 +38,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 ExceptionDetails.builder()
                         .timestamp(LocalDateTime.now())
                         .status(status.value())
-                        .title(ex.getCause().getMessage())
+                        .title(ex.getCause() == null ? ex.getMessage() : ex.getCause().getMessage())
                         .description(ex.getMessage())
                         .build()
         ).build();

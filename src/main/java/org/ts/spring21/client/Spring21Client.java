@@ -17,8 +17,8 @@ public class Spring21Client {
         SpaceShipDTO dto = new RestTemplate().getForObject("http://localhost:8080/spaceships/5", SpaceShipDTO.class, 5L);
         log.info(dto);
 
-        ResponseEntity<List<SpaceShip>> responseEntity = new RestTemplate().exchange("http://localhost:8080/spaceships/all", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
-        });
+        ResponseEntity<List<SpaceShip>> responseEntity = new RestTemplate()
+                .exchange("http://localhost:8080/spaceships/all", HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
         log.info(responseEntity.getBody());
 
     }

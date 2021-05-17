@@ -55,6 +55,11 @@
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
 
 
         <!-- dev -->
@@ -70,6 +75,26 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>it</id>
+             <build>
+                 <plugins>
+                     <plugin>
+                         <groupId>org.apache.maven.plugins</groupId>
+                         <artifactId>maven-surefire-plugin</artifactId>
+                         <version>${maven-surefire-plugin.version}</version>
+                         <configuration>
+                             <includes>
+                                 <include>**/*IT.*</include>
+                             </includes>
+                         </configuration>
+                     </plugin>
+                 </plugins>
+             </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>

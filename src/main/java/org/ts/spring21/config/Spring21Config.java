@@ -13,8 +13,11 @@ public class Spring21Config implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        // Default pagination to 5 items
         PageableHandlerMethodArgumentResolver pageableHandler = new PageableHandlerMethodArgumentResolver();
         pageableHandler.setFallbackPageable(PageRequest.of(1, 5));
         resolvers.add(pageableHandler);
     }
+
+
 }
