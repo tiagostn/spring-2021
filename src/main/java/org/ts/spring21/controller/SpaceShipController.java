@@ -1,6 +1,7 @@
 package org.ts.spring21.controller;
 
 import lombok.extern.log4j.Log4j2;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class SpaceShipController {
     }
 
     @GetMapping
-    public ApiResponse<Page<SpaceShip>> list(Pageable pageable) {
+    public ApiResponse<Page<SpaceShip>> list(@ParameterObject Pageable pageable) {
         Page<SpaceShip> spaceShips = spaceShipService.listAll(pageable);
         ApiResponse<Page<SpaceShip>> apiResponse = new ApiResponse<>(spaceShips, null);
         return apiResponse;
