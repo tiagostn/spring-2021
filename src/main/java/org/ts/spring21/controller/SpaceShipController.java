@@ -5,6 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.ts.spring21.controller.dto.SpaceShipDTO;
 import org.ts.spring21.controller.response.ApiResponse;
@@ -43,12 +46,19 @@ public class SpaceShipController {
         return spaceShipService.findById(id);
     }
 
+    @GetMapping("porId/{id}")
+    public SpaceShip findById(@PathVariable("id") long id, @AuthenticationPrincipal UserDetails userDetails) {
+        log.info("User: " + userDetails.getUsername() + ", Roles: " + userDetails.getAuthorities().toString());
+        return spaceShipService.findById(id);
+    }
+
     @GetMapping("/find")
     public List<SpaceShip> findByName(@RequestParam String name) {
         return spaceShipService.findByName(name);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<SpaceShip> save(@RequestBody @Valid SpaceShipDTO spaceShip) {
         return new ResponseEntity<>(spaceShipService.save(SpaceShipMapper.get().toSpaceShip(spaceShip)), HttpStatus.CREATED);
     }

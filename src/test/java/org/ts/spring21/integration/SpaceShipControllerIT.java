@@ -4,11 +4,15 @@ import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.data.domain.Page;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -26,19 +30,32 @@ import java.util.LinkedHashMap;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public class SpaceShipControllerIT {
     @Autowired
-    private TestRestTemplate testRestTemplate;
-    @LocalServerPort
-    private int port;
+    @Qualifier("testRestTemplateRoleUser")
+    private TestRestTemplate testRestTemplateRoleUser;
+//    @LocalServerPort
+//    private int port;
     @Autowired
     private SpaceShipRepository spaceShipRepository;
     @Autowired
     private SpaceShipService spaceShipService;
 
+    @TestConfiguration
+    @Lazy
+    static class Config {
+        @Bean(name = "testRestTemplateRoleUser")
+        public TestRestTemplate testRestTemplateRoleUserCreator(@Value("${local.server.port}") int port) {
+            RestTemplateBuilder builder = new RestTemplateBuilder()
+                    .basicAuthentication("user", "1234")
+                    .rootUri("http://localhost:" +port);
+            return new TestRestTemplate(builder);
+        }
+    }
+
     @Test
     void list_ReturnsPageOfSpaceship_WhenSuccessful() {
         SpaceShip spaceShipSaved = spaceShipService.save(SpaceShipCreator.createSpaceShipToBeSaved());
 
-        ResponseEntity<ApiResponse> responseEntity = testRestTemplate.exchange("/spaceships", HttpMethod.GET, null, ApiResponse.class);
+        ResponseEntity<ApiResponse> responseEntity = testRestTemplateRoleUser.exchange("/spaceships", HttpMethod.GET, null, ApiResponse.class);
         log.info(responseEntity.getBody().toString());
         Assertions.assertThat(responseEntity).isNotNull();
         Assertions.assertThat(responseEntity.getBody()).isNotNull();
