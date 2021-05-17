@@ -22,3 +22,14 @@ logging:
 #          descriptor:
 #            sql:
 #              BasicBinder: trace
+
+management:
+  endpoints:
+    web:
+      exposure:
+#        include: "*"
+        include: info, health, metrics, prometheus
+
+info:
+  app: Spring Boot 2021
+  version: 1.0.0
