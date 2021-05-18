@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -37,5 +38,19 @@ public class PageableResponse<T> extends PageImpl<T> {
         this.totalPages = totalPages;
         this.numberOfElements = numberOfElements;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PageableResponse<?> that = (PageableResponse<?>) o;
+        return first == that.first && last == that.last && totalPages == that.totalPages && numberOfElements == that.numberOfElements;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), first, last, totalPages, numberOfElements);
     }
 }

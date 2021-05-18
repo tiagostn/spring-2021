@@ -34,7 +34,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, SCOPE_REQUEST);
         }
 
-        ApiResponse apiResponse = ApiResponse.builder().error(
+        var apiResponse = ApiResponse.builder().error(
                 ExceptionDetails.builder()
                         .timestamp(LocalDateTime.now())
                         .status(status.value())
@@ -47,7 +47,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiResponse> handleBusinessException(BusinessException be) {
+    public ResponseEntity<ApiResponse<Object>> handleBusinessException(BusinessException be) {
         return new ResponseEntity<>(
                 ApiResponse.builder().error(
                         BusinessExceptionDetails.builder()
