@@ -3,6 +3,8 @@ server:
     include-stacktrace: never
 
 spring:
+  application:
+    name: Spring 2021!
   datasource:
     url: jdbc:mysql://localhost:3306/spaceship?createDatabaseIfNotExist=true
     username: root
@@ -29,6 +31,9 @@ management:
       exposure:
 #        include: "*"
         include: info, health, metrics, prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 info:
   app: Spring Boot 2021
